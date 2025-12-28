@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title>Andrew's homepage</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/js/moment.js"></script>
+    <script type="text/javascript" src="/js/weather.js"></script>
+    <link rel="stylesheet" href="/css/stylesheet.css">
+    <link rel="stylesheet" href="/css/weather.css"/>
+</head>
+<body>
+    <div id="header">Andrew's homepage</div>
+    <ul id="navbar">
+        <li><a href="/">Home</a></li>
+        <li><a href="/weather" class="active">Weather</a></li>
+        <li><a href="/calendar">Calendar</a></li>
+        <li><a href="/cryptography">Cryptography</a></li>
+        <li><a href="/dictionary">Dictionary</a></li>
+        <li><a href="/sudoku">Sudoku</a></li>
+        <li><a href="/chess">Chess</a></li>
+        <li><a href="/math">Math</a></li>
+        <li><a href="/cs">CS</a></li>
+        <li><a href="/biblestudy">Bible Study</a></li>
+    </ul>
+    <div id="container">
+        <h3 id="today"></h3>
+        <form id="searchform">
+            <div id="search_by_coordinates" class="vmargin">
+                <table class="search">
+                    <tr>
+                        <td>
+                            <label for="latitude">Latitude:</label>
+                        </td>
+                        <td>
+                            <input name="latitude" type="number" min="0" max="90" step="any" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="longitude">Longitude:</label>
+                        </td>
+                        <td>
+                            <input name="longitude" type="number" min="-180" max="180" step="any" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="vmargin">
+                <button type="submit" disabled>Search</button>
+            </div>
+        </form>
+        <table id="forecast" style="display: none">
+            <tr>
+                <th>Period</th>
+                <th>Temp</th>
+                <th>PoP</th>
+                <th>Wind Speed</th>
+                <th>Dir</th>
+                <th>Short Forecast</th>
+                <th>Detailed Forecast</th>
+                <th>Icon</th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
