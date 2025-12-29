@@ -4,7 +4,6 @@ import homepage.service.WeatherService;
 import homepage.model.WeatherForecast;
 import homepage.model.Coordinates;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
