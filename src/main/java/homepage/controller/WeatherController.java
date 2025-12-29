@@ -3,6 +3,7 @@ package homepage.controller;
 import homepage.service.WeatherService;
 import homepage.model.WeatherForecast;
 import homepage.model.Coordinates;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,13 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
+    @GetMapping("/data")
+    public WeatherForecast weatherForecastGet(Coordinates coordinates) {
+        return weatherService.getForecast(coordinates);
+    }
+
     @PostMapping("/data")
-    public WeatherForecast weatherForecast(Coordinates coordinates) {
+    public WeatherForecast weatherForecastPost(Coordinates coordinates) {
         return weatherService.getForecast(coordinates);       
     }
 
