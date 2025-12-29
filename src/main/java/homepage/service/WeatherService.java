@@ -79,8 +79,8 @@ public class WeatherService {
             JsonReader jsonReader = javax.json.Json.createReader(new StringReader(responseBody));
             JsonObject jsonObject = jsonReader.readObject();
             jsonReader.close();
-            JsonObject data = jsonObject.getJsonObject("properties");
             wf = new WeatherForecast();
+            JsonObject data = jsonObject.getJsonObject("properties");
             JsonObject elevation = data.getJsonObject("elevation");
             if (elevation != null && elevation.getJsonNumber("value") != null) {
                 wf.setElevation(elevation.getJsonNumber("value").toString() + " m");
