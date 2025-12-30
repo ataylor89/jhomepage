@@ -23,6 +23,9 @@ import org.springframework.stereotype.Service;
 public class WeatherService {
 
     public WeatherForecast getForecast(Coordinates coordinates) {
+        if (!coordinates.valid()) {
+            throw new InvalidPointException(coordinates);
+        }
         try {
             String forecastURL = getForecastURL(coordinates);
             WeatherForecast weatherForecast = getForecast(forecastURL, coordinates);
