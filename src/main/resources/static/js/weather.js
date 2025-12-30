@@ -51,6 +51,11 @@ class WeatherForecast {
                 $('#forecast').append(tr);
             }
             $('#forecast').show();
+            $('#error').empty().hide();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            $('#forecast tr:not(:first-child)').remove();
+            $('#forecast').hide();
+            $('#error').html(jqXHR.responseJSON.message).show();
         });
     }
 
