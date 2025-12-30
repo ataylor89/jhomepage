@@ -4,7 +4,7 @@ import homepage.exception.InvalidPointException;
 
 public record Coordinates(double latitude, double longitude) {
     
-    public valid() {
+    public boolean valid() {
         if (latitude < -90.0 || latitude > 90.0 || longitude < -180.0 || longitude > 180.0) {
             return false;
         }
