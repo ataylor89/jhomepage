@@ -3,9 +3,16 @@ package homepage.controller;
 import homepage.service.WeatherService;
 import homepage.model.WeatherForecast;
 import homepage.model.Coordinates;
+import homepage.exception.ErrorResponse;
+import homepage.exception.InvalidPointException;
+import homepage.exception.NoForecastDataException;
+import homepage.exception.WeatherServiceException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,6 +33,18 @@ public class WeatherController {
     @PostMapping("/data")
     public WeatherForecast weatherForecastPost(Coordinates coordinates) {
         return weatherService.getForecast(coordinates);       
+    }
+
+    @ExceptionHandler({InvalidPointException.class, NoForecastDataException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNotFound(Exception ex) {
+        return new ErrorResponse(404, ex.getMessage());
+    }
+
+    @ExceptionHandler(WeatherServiceException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleInternalServerError(Exception ex) {
+        return new ErrorResponse(500, ex.getMessage());
     }
 
 }

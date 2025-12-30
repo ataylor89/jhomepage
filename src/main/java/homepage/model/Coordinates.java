@@ -11,4 +11,9 @@ public record Coordinates(double latitude, double longitude) {
         }
     }
 
+    @Override
+    public String toString() {
+        return String.format("(%f, %f)", latitude, longitude);
+    }
+
 }
