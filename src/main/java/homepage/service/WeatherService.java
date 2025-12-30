@@ -77,9 +77,6 @@ public class WeatherService {
     }
 
     private WeatherForecast parseForecast(HttpResponse<String> response, Coordinates coordinates) {
-        if (response.statusCode() != 200) {
-            throw new NoForecastDataException(coordinates);
-        }
         WeatherForecast wf = new WeatherForecast();
         wf.setLatitude(coordinates.latitude());
         wf.setLongitude(coordinates.longitude());
