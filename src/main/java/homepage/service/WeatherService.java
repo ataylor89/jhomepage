@@ -23,23 +23,23 @@ import org.springframework.stereotype.Service;
 public class WeatherService {
 
     public WeatherForecast getForecast(Coordinates coordinates) {
-        if (!coordinates.valid()) {
-            throw new InvalidPointException(coordinates);
-        }
         try {
             String forecastURL = getForecastURL(coordinates);
             WeatherForecast weatherForecast = getForecast(forecastURL, coordinates);
             return weatherForecast;
-        } catch (NoForecastDataException e) {
-            throw e;
-        } catch (InvalidPointException e) {
+        } catch (InvalidPointException | NoForecastDataException e) {
+            System.out.println(e);
             throw e;
         } catch (Exception e) {
+            System.out.println(e);
             throw new WeatherServiceException(coordinates);
         }
     }
 
     private String getForecastURL(Coordinates coordinates) throws IOException, InterruptedException {
+        if (!coordinates.valid()) {
+            throw new InvalidPointException(coordinates);
+        }
         HttpClient client = HttpClient.newHttpClient();
         String mainURL = String.format("https://api.weather.gov/points/%f,%f", coordinates.latitude(), coordinates.longitude());
         HttpRequest request = HttpRequest.newBuilder()
