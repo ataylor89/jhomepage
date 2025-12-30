@@ -11,9 +11,16 @@ public record Coordinates(double latitude, double longitude) {
         return true;
     }
 
+    private String format(double num) {
+        if (num % 1 == 0) {
+            return String.valueOf((int) num);
+        }
+        return String.valueOf(num);
+    }
+
     @Override
     public String toString() {
-        return String.format("(%s, %s)", latitude, longitude);
+        return String.format("(%s, %s)", format(latitude), format(longitude));
     }
 
 }
