@@ -51,9 +51,6 @@ public class WeatherService {
     }
 
     private String parseForecastURL(HttpResponse<String> response, Coordinates coordinates) {
-        if (response.statusCode() != 200) {
-            throw new NoForecastDataException(coordinates);
-        }
         String responseBody = response.body();
         JsonReader jsonReader = javax.json.Json.createReader(new StringReader(responseBody));
         JsonObject jsonObject = jsonReader.readObject();
