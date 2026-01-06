@@ -20,7 +20,7 @@ public class CalendarService {
     public Calendar getCalendar(int year) {
         Calendar calendar = new Calendar();
         calendar.setMetadata(getMetadata());
-        String path = "static/data/calendar/2026.json";
+        String path = "static/data/calendar/" + year + ".json";
         JsonObject jsonObject = readJsonFile(path);
         calendar.setYear(jsonObject.getInt("year"));
         calendar.setLeapYear(jsonObject.getBoolean("leap_year"));
