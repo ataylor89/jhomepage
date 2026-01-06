@@ -3,6 +3,7 @@ package homepage.service;
 import homepage.model.calendar.Calendar;
 import homepage.model.calendar.Metadata;
 import homepage.model.calendar.Month;
+import homepage.exception.calendar.NoDataAvailableException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -18,8 +19,12 @@ import org.springframework.stereotype.Service;
 public class CalendarService { 
 
     public Calendar getCalendar(int year) {
+        Metadata metadata = getMetadata();
+        if (year < metadata.getMinYear() || year > metadata.getMaxYear()) {
+            throw new NoDataAvailableException(year);
+        }
         Calendar calendar = new Calendar();
-        calendar.setMetadata(getMetadata());
+        calendar.setMetadata(metadata);
         String path = "static/data/calendar/" + year + ".json";
         JsonObject jsonObject = readJsonFile(path);
         calendar.setYear(jsonObject.getInt("year"));
