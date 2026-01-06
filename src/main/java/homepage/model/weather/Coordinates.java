@@ -1,6 +1,6 @@
-package homepage.model;
+package homepage.model.weather;
 
-import homepage.exception.InvalidPointException;
+import homepage.exception.weather.InvalidPointException;
 
 public record Coordinates(double latitude, double longitude) {
     

@@ -1,11 +1,11 @@
 package homepage.service;
 
-import homepage.model.WeatherForecast;
-import homepage.model.ForecastPeriod;
-import homepage.model.Coordinates;
-import homepage.exception.InvalidPointException;
-import homepage.exception.NoForecastDataException;
-import homepage.exception.WeatherServiceException;
+import homepage.model.weather.WeatherForecast;
+import homepage.model.weather.ForecastPeriod;
+import homepage.model.weather.Coordinates;
+import homepage.exception.weather.InvalidPointException;
+import homepage.exception.weather.NoForecastDataException;
+import homepage.exception.weather.WeatherServiceException;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;

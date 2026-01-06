@@ -1,12 +1,12 @@
 package homepage.controller;
 
 import homepage.service.WeatherService;
-import homepage.model.WeatherForecast;
-import homepage.model.Coordinates;
+import homepage.model.weather.WeatherForecast;
+import homepage.model.weather.Coordinates;
 import homepage.exception.ErrorResponse;
-import homepage.exception.InvalidPointException;
-import homepage.exception.NoForecastDataException;
-import homepage.exception.WeatherServiceException;
+import homepage.exception.weather.InvalidPointException;
+import homepage.exception.weather.NoForecastDataException;
+import homepage.exception.weather.WeatherServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;

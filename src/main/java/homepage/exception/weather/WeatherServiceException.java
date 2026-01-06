@@ -1,6 +1,6 @@
-package homepage.exception;
+package homepage.exception.weather;
 
-import homepage.model.Coordinates;
+import homepage.model.weather.Coordinates;
 
 public class WeatherServiceException extends RuntimeException {
 

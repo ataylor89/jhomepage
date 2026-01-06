@@ -1,4 +1,4 @@
-package homepage.model;
+package homepage.model.weather;
 
 import java.util.List;
 

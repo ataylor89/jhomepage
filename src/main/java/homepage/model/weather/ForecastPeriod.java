@@ -1,4 +1,4 @@
-package homepage.model;
+package homepage.model.weather;
 
 public class ForecastPeriod {
     private String name;

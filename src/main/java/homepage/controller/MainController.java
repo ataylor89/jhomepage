@@ -16,4 +16,9 @@ public class MainController {
         return "weather";
     }
 
+    @GetMapping("/calendar")
+    public String calendar() {
+        return "calendar";
+    }
+
 }
