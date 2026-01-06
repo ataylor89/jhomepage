@@ -34,7 +34,7 @@ public class CalendarController {
 
     @ExceptionHandler(NoDataAvailableException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNoDataAvailable(Exception ex) {
+    public ErrorResponse handleNoDataAvailable(NoDataAvailableException ex) {
         return new ErrorResponse(404, ex.getMessage());
     }
 

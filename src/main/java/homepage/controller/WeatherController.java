@@ -37,19 +37,19 @@ public class WeatherController {
 
     @ExceptionHandler(InvalidPointException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleInvalidPoint(Exception ex) {
+    public ErrorResponse handleInvalidPoint(InvalidPointException ex) {
         return new ErrorResponse(404, ex.getMessage());
     }
 
     @ExceptionHandler(NoForecastDataException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNoForecastData(Exception ex) {
+    public ErrorResponse handleNoForecastData(NoForecastDataException ex) {
         return new ErrorResponse(404, ex.getMessage());
     }
 
     @ExceptionHandler(WeatherServiceException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleWeatherServiceError(Exception ex) {
+    public ErrorResponse handleWeatherServiceException(WeatherServiceException ex) {
         return new ErrorResponse(500, ex.getMessage());
     }
 
