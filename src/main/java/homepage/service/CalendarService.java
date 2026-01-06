@@ -21,7 +21,7 @@ public class CalendarService {
         Calendar calendar = new Calendar();
         calendar.setMetadata(getMetadata());
         String path = "static/data/calendar/2026.json";
-        JsonObject jsonObject = getJson(path);
+        JsonObject jsonObject = readJsonFile(path);
         calendar.setYear(jsonObject.getInt("year"));
         calendar.setLeapYear(jsonObject.getBoolean("leap_year"));
         calendar.setMonths(getMonths(jsonObject));
@@ -30,7 +30,7 @@ public class CalendarService {
 
     private Metadata getMetadata() {
         String path = "static/data/calendar/metadata.json";
-        JsonObject jsonObject = getJson(path);
+        JsonObject jsonObject = readJsonFile(path);
         Metadata metadata = new Metadata();
         metadata.setMinYear(jsonObject.getInt("min_year"));
         metadata.setMaxYear(jsonObject.getInt("max_year"));
@@ -57,7 +57,7 @@ public class CalendarService {
         return months;
     }
 
-    private JsonObject getJson(String path) {
+    private JsonObject readJsonFile(String path) {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
         JsonReader jsonReader = Json.createReader(inputStream);
         JsonObject jsonObject = jsonReader.readObject();
