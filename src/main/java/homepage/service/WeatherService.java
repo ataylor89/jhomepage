@@ -9,6 +9,7 @@ import homepage.exception.weather.WeatherServiceException;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import javax.json.Json;
 import javax.json.JsonReader;
 import javax.json.JsonObject;
 import javax.json.JsonArray;
@@ -52,7 +53,7 @@ public class WeatherService {
 
     private String parseForecastURL(HttpResponse<String> response, Coordinates coordinates) {
         String responseBody = response.body();
-        JsonReader jsonReader = javax.json.Json.createReader(new StringReader(responseBody));
+        JsonReader jsonReader = Json.createReader(new StringReader(responseBody));
         JsonObject jsonObject = jsonReader.readObject();
         jsonReader.close();
         if (jsonObject.getInt("status", 0) == 404 && jsonObject.getString("type", "").endsWith("InvalidPoint")) {
@@ -81,7 +82,7 @@ public class WeatherService {
         wf.setLatitude(coordinates.latitude());
         wf.setLongitude(coordinates.longitude());
         String responseBody = response.body();
-        JsonReader jsonReader = javax.json.Json.createReader(new StringReader(responseBody));
+        JsonReader jsonReader = Json.createReader(new StringReader(responseBody));
         JsonObject jsonObject = jsonReader.readObject();
         jsonReader.close();
         JsonObject data = jsonObject.getJsonObject("properties");
