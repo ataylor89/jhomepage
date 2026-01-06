@@ -35,15 +35,21 @@ public class WeatherController {
         return weatherService.getForecast(coordinates);       
     }
 
-    @ExceptionHandler({InvalidPointException.class, NoForecastDataException.class})
+    @ExceptionHandler(InvalidPointException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFound(Exception ex) {
+    public ErrorResponse handleInvalidPoint(Exception ex) {
+        return new ErrorResponse(404, ex.getMessage());
+    }
+
+    @ExceptionHandler(NoForecastDataException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNoForecastData(Exception ex) {
         return new ErrorResponse(404, ex.getMessage());
     }
 
     @ExceptionHandler(WeatherServiceException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleInternalServerError(Exception ex) {
+    public ErrorResponse handleWeatherServiceError(Exception ex) {
         return new ErrorResponse(500, ex.getMessage());
     }
 
