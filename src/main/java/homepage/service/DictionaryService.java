@@ -2,80 +2,50 @@ package homepage.service;
 
 import homepage.model.dictionary.Dictionary;
 import homepage.model.dictionary.Entry;
+import homepage.exception.dictionary.UnableToReadFileException;
+import homepage.exception.dictionary.UnableToParseFileException;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+import java.io.IOException;
 import java.io.InputStream;
-import javax.json.Json;
-import javax.json.JsonReader;
-import javax.json.JsonObject;
-import javax.json.JsonArray;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DictionaryService { 
 
     public Dictionary createDictionary(List<String> subjects) {
-        String path = "static/data/dictionary/dictionary.json";
-        JsonObject jsonObject = readJsonFile(path);
-        Dictionary dictionary = new Dictionary();
-        dictionary.setName(jsonObject.getString("name"));
-        dictionary.setLanguage(jsonObject.getString("language"));
-        dictionary.setOrder(jsonObject.getString("order"));
-        dictionary.setEntries(new ArrayList<Entry>());
-        for (Entry entry : getEntries(jsonObject)) {
-            if (hasOverlap(subjects, entry.getSubjects())) {
-                dictionary.getEntries().add(entry);
-            }           
-        }
+        Dictionary dictionary = getFullDictionary();
+        filter(dictionary, subjects);
         return dictionary;
     }
 
-    private List<Entry> getEntries(JsonObject jsonObject) {
-        List<Entry> entries = new ArrayList<>();
-        JsonArray jsonArray = jsonObject.getJsonArray("entries");
-        for (int i = 0; i < jsonArray.size(); i++) {
-            Entry entry = new Entry();
-            JsonObject entryObj = jsonArray.getJsonObject(i);
-            entry.setEntry(entryObj.getString("entry"));
-            entry.setDefinitions(getDefinitions(entryObj));
-            entry.setSubjects(getSubjects(entryObj));
-            entries.add(entry);
+    private Dictionary getFullDictionary() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String path = "static/data/dictionary/dictionary.json";
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
+            return objectMapper.readValue(inputStream, Dictionary.class);
+        } catch (JsonParseException | JsonMappingException e) {
+            System.out.println(e);
+            throw new UnableToParseFileException();
+        } catch (IOException e) {
+            System.out.println(e);
+            throw new UnableToReadFileException();
         }
-        return entries;
     }
 
-
-    private List<String> getDefinitions(JsonObject jsonObject) {
-        List<String> definitions = new ArrayList<>();
-        JsonArray jsonArray = jsonObject.getJsonArray("definitions");
-        for (int i = 0; i < jsonArray.size(); i++) {
-            definitions.add(jsonArray.getString(i));
-        }
-        return definitions;
+    private void filter(Dictionary dictionary, List<String> subjects) {
+        List<Entry> matchingEntries = dictionary.getEntries().stream().filter(e -> pertainsTo(e, subjects)).toList();
+        dictionary.setEntries(matchingEntries);
     }
 
-    private List<String> getSubjects(JsonObject jsonObject) {
-        List<String> subjects = new ArrayList<>();
-        JsonArray jsonArray = jsonObject.getJsonArray("subjects");
-        for (int i = 0; i < jsonArray.size(); i++) {
-            subjects.add(jsonArray.getString(i));
-        }
-        return subjects;
-    }
-
-    private JsonObject readJsonFile(String path) {
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
-        JsonReader jsonReader = Json.createReader(inputStream);
-        JsonObject jsonObject = jsonReader.readObject();
-        jsonReader.close();
-        return jsonObject;
-    }
-
-    private boolean hasOverlap(List<String> list1, List<String> list2) {
-        Set<String> set2 = new HashSet<>(list2);
-        return list1.stream().anyMatch(set2::contains);
+    private boolean pertainsTo(Entry entry, List<String> subjects) {
+        Set<String> set = new HashSet<>(subjects);
+        return entry.getSubjects().stream().anyMatch(set::contains);
     }
 
 }
