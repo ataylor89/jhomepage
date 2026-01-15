@@ -43,7 +43,7 @@ public class DictionaryController {
 
     @ExceptionHandler(UnableToParseFileException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleUnableToReadFile(UnableToParseFileException ex) {
+    public ErrorResponse handleUnableToParseFile(UnableToParseFileException ex) {
         return new ErrorResponse(500, ex.getMessage());
     }
 
