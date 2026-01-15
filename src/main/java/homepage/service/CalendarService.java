@@ -17,34 +17,22 @@ import org.springframework.stereotype.Service;
 public class CalendarService { 
 
     public Calendar getCalendar(int year) {
-        Metadata metadata = getMetadata("static/data/calendar/metadata.json");
+        String path = "static/data/calendar/metadata.json";
+        Metadata metadata = (Metadata) parseJsonFile(path, Metadata.class);
         if (year < metadata.getMinYear() || year > metadata.getMaxYear()) {
             throw new NoDataAvailableException(year);
         }
-        Calendar calendar = getCalendar("static/data/calendar/" + year + ".json");
+        path = "static/data/calendar/" + year + ".json";
+        Calendar calendar = (Calendar) parseJsonFile(path, Calendar.class);
         calendar.setMetadata(metadata);
         return calendar;
     }
 
-    private Metadata getMetadata(String path) {
+    private Object parseJsonFile(String path, Class outputClass) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
-            return objectMapper.readValue(inputStream, Metadata.class);
-        } catch (JsonParseException | JsonMappingException e) {
-            System.out.println(e);
-            throw new UnableToParseFileException(path);
-        } catch (IOException e) {
-            System.out.println(e);
-            throw new UnableToReadFileException(path);
-        }
-    }
-
-    private Calendar getCalendar(String path) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
-            return objectMapper.readValue(inputStream, Calendar.class);
+            return objectMapper.readValue(inputStream, outputClass);
         } catch (JsonParseException | JsonMappingException e) {
             System.out.println(e);
             throw new UnableToParseFileException(path);
