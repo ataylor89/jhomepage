@@ -21,4 +21,9 @@ public class MainController {
         return "calendar";
     }
 
+    @GetMapping("/dictionary")
+    public String dictionary() {
+        return "dictionary";
+    }
+
 }
