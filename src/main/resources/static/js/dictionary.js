@@ -5,7 +5,17 @@ class Dictionary {
     }
 
     addEventListeners() {
+        $('input[name="subjects"]').on('change', this.handleChange);
         $('#dictionary_form').on('submit', this.handleSubmit);
+    }
+
+    handleChange() {
+        if ($('input[type="checkbox"]:checked').length > 0) {
+            $('button[type="submit"]').prop('disabled', false);
+        }
+        else {
+            $('button[type="submit"]').prop('disabled', true);
+        }
     }
 
     handleSubmit(e) {
