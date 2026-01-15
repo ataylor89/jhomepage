@@ -1,6 +1,6 @@
 {
     "year": 2026,
-    "leap_year": false,
+    "leapYear": false,
     "months": [
         {
             "month": "January",
