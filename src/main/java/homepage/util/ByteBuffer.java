@@ -50,7 +50,7 @@ public class ByteBuffer {
         }
     }
 
-    public void putInt(int i, ByteOrder o) {
+    public void putInt(int i) {
         if (order == ByteOrder.BIG_ENDIAN) {
             buffer.add((byte) ((i >> 24) & 0xFF));
             buffer.add((byte) ((i >> 16) & 0xFF));
@@ -65,7 +65,7 @@ public class ByteBuffer {
         }
     }
 
-    public void putLong(long l, ByteOrder o) {
+    public void putLong(long l) {
         if (order == ByteOrder.BIG_ENDIAN) {
             buffer.add((byte) ((l >> 56) & 0xFF));
             buffer.add((byte) ((l >> 48) & 0xFF));
