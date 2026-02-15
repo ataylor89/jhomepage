@@ -89,6 +89,9 @@ public class ByteBuffer {
     }
 
     public byte get(int index) {
+        if (buffer.size() < index + 1) {
+            throw new IndexOutOfBoundsException("The buffer is not large enough to retrieve a byte at index " + index);
+        }
         return buffer.get(index);
     }
 
