@@ -1,4 +1,4 @@
-package homepage.algorithm;
+package homepage.util;
 
 import java.util.ArrayList;
 import java.util.List;

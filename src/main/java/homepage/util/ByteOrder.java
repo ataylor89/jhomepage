@@ -1,4 +1,4 @@
-package homepage.algorithm;
+package homepage.util;
 
 public enum ByteOrder {
     BIG_ENDIAN,
