@@ -9,17 +9,32 @@ public class ByteBuffer {
     private ByteOrder order;
 
     public ByteBuffer() {
-        buffer = new ArrayList<Byte>();
+        buffer = new ArrayList<>();
         order = ByteOrder.BIG_ENDIAN;
     }
 
     public ByteBuffer(byte[] bytes) {
-        this();
+        buffer = new ArrayList<>();
+        put(bytes);
+    }
+
+    public ByteBuffer(ByteOrder order) {
+        buffer = new ArrayList<>();
+        this.order = order;
+    }
+
+    public ByteBuffer(byte[] bytes, ByteOrder order) {
+        buffer = new ArrayList<>();
+        this.order = order;
         put(bytes);
     }
 
     public void order(ByteOrder order) {
         this.order = order;
+    }
+
+    public ByteOrder order() {
+        return order;
     }
 
     public void put(byte b) {
