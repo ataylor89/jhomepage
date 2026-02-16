@@ -59,7 +59,7 @@ public class ByteBuffer {
             buffer.add((byte) ((s >> 8) & 0xFF));
             buffer.add((byte) (s & 0xFF));
         }
-        else if (order == ByteOrder.LITTLE_ENDIAN) {
+        else {
             buffer.add((byte) (s & 0xFF));
             buffer.add((byte) ((s >> 8) & 0xFF));
         }
@@ -72,7 +72,7 @@ public class ByteBuffer {
             buffer.add((byte) ((i >> 8) & 0xFF));
             buffer.add((byte) (i & 0xFF));
         }
-        else if (order == ByteOrder.LITTLE_ENDIAN) {
+        else {
             buffer.add((byte) (i & 0xFF));
             buffer.add((byte) ((i >> 8) & 0xFF));
             buffer.add((byte) ((i >> 16) & 0xFF));
@@ -91,7 +91,7 @@ public class ByteBuffer {
             buffer.add((byte) ((l >> 8) & 0xFF));
             buffer.add((byte) (l & 0xFF));
         }
-        else if (order == ByteOrder.LITTLE_ENDIAN) {
+        else {
             buffer.add((byte) (l & 0xFF));
             buffer.add((byte) ((l >> 8) & 0xFF));
             buffer.add((byte) ((l >> 16) & 0xFF));
@@ -119,7 +119,7 @@ public class ByteBuffer {
             s += buffer.get(index) << 8;
             s += buffer.get(index + 1);
         }
-        else if (order == ByteOrder.LITTLE_ENDIAN) {
+        else {
             s += buffer.get(index);
             s += buffer.get(index + 1) << 8;
         }
@@ -137,7 +137,7 @@ public class ByteBuffer {
             i += buffer.get(index + 2) << 8;
             i += buffer.get(index + 3);
         }
-        else if (order == ByteOrder.LITTLE_ENDIAN) {
+        else {
             i += buffer.get(index);
             i += buffer.get(index + 1) << 8;
             i += buffer.get(index + 2) << 16;
@@ -161,7 +161,7 @@ public class ByteBuffer {
             l += buffer.get(index + 6) << 8;
             l += buffer.get(index + 7);
         }
-        else if (order == ByteOrder.LITTLE_ENDIAN) {
+        else {
             l += buffer.get(index);
             l += buffer.get(index + 1) << 8;
             l += buffer.get(index + 2) << 16;
