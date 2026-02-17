@@ -1,6 +1,9 @@
+/*
 package homepage.algorithm.md5;
 
 import homepage.util.ByteBuffer;
+import homepage.util.ByteOrder;
+import java.math.BigDecimal;
 import static java.lang.Math.abs;
 import static java.lang.Math.sin;
 import org.springframework.stereotype.Component;
@@ -8,16 +11,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class MD5 {
 
-    private int[] table;
+    private long[] table;
 
     public MD5() {
-        table = new int[64];
+        table = new long[64];
         populateTable();
     }
 
     private void populateTable() {
+        BigDecimal constant = new BigDecimal("4294967296");
         for (int i = 0; i < table.length; i++) {
-            table[i] = int(abs(sin(i+1)) * 4294967296) & 0xFFFFFFFF;
+            BigDecimal factor = new BigDecimal(abs(sin(i+1)));
+            BigDecimal result = constant.multiply(factor).remainder(constant);
+            table[i] = result.longValue();
+            // System.out.printf("table[%d] = %d\n", i, table[i]);
         }
     }
 
@@ -27,59 +34,63 @@ public class MD5 {
         while (buffer.size() % 64 != 56) {
             buffer.put((byte) 0);
         }
-        int bitLength = message.getBytes().length * 8;
+        long bitLength = message.getBytes().length * 8L;
         buffer.putLong(bitLength);
         return buffer;
     }   
 
-    private int F(int x, int y, int z) {
-        return (x & y) | (~x & z);
+    private long F(long x, long y, long z) {
+        long result = (x & y) | (~x & z);
+        return result & 0xFFFFFFFFL;
     }
 
-    private int G(int x, int y, int z) {
-        return (x & z) | (y & ~z);
+    private long G(long x, long y, long z) {
+        long result = (x & z) | (y & ~z);
+        return result & 0xFFFFFFFFL;
     }
 
-    private int H(int x, int y, int z) {
-        return x ^ y ^ z;
+    private long H(long x, long y, long z) {
+        long result = x ^ y ^ z;
+        return result & 0xFFFFFFFFL;
     }
 
-    private int I(int x, int y, int z) {
-        return y ^ (x | ~z);
+    private long I(long x, long y, long z) {
+        long result = y ^ (x | ~z);
+        return result & 0xFFFFFFFFL;
     }
 
-    private int rotateLeft(int x, int n) {
-        x &= 0xFFFFFFFF;
-        return (x << n | x >> (32 - n)) & 0xFFFFFFFF;
+    private long rotateLeft(long x, int n) {
+        x &= 0xFFFFFFFFL;
+        return (x << n | x >> (32 - n)) & 0xFFFFFFFFL;
     }
 
-    private int op(int a, int b, int c, int d, int k, int s, int i, Operation f, int[] x) {
+    private long op(long a, long b, long c, long d, int k, int s, int i, Operation f, long[] x) {
         a = b + rotateLeft(a + f.execute(b, c, d) + x[k] + table[i-1], s);
-        return a & 0xFFFFFFFF;
+        return a & 0xFFFFFFFFL;
     }
 
     public MD5Hash md5(String message) {
         ByteBuffer buffer = pad(message);
-        int A = 0x67452301;
-        int B = 0xefcdab89;
-        int C = 0x98badcfe;
-        int D = 0x10325476;
+        long A = 0x67452301;
+        long B = 0xefcdab89;
+        long C = 0x98badcfe;
+        long D = 0x10325476;
         Operation F = this::F;
         Operation G = this::G;
         Operation H = this::H;
         Operation I = this::I;
         for (int i = 0; i < buffer.size() / 64; i++) {
-            int[] X = new int[16];
+            long[] X = new long[16];
             for (int j = 0; j < 16; j++) {
                 int offset = 4 * (i * 16 + j);
                 int word = buffer.getInt(offset);
-                X[j] = word;                
+                X[j] = Integer.toUnsignedLong(word);                
             }
-            int AA = A;
-            int BB = B;
-            int CC = C;
-            int DD = D;
-            # Round 1
+            long AA = A;
+            long BB = B;
+            long CC = C;
+            long DD = D;
+            // Round 1
             A = op(A, B, C, D, 0, 7, 1, F, X);
             D = op(D, A, B, C, 1, 12, 2, F, X);
             C = op(C, D, A, B, 2, 17, 3, F, X);
@@ -96,7 +107,7 @@ public class MD5 {
             D = op(D, A, B, C, 13, 12, 14, F, X);
             C = op(C, D, A, B, 14, 17, 15, F, X);
             B = op(B, C, D, A, 15, 22, 16, F, X);
-            # Round 2
+            // Round 2
             A = op(A, B, C, D, 1, 5, 17, G, X);
             D = op(D, A, B, C, 6, 9, 18, G, X);
             C = op(C, D, A, B, 11, 14, 19, G, X);
@@ -113,7 +124,7 @@ public class MD5 {
             D = op(D, A, B, C, 2, 9, 30, G, X);
             C = op(C, D, A, B, 7, 14, 31, G, X);
             B = op(B, C, D, A, 12, 20, 32, G, X);
-            # Round 3
+            // Round 3
             A = op(A, B, C, D, 5, 4, 33, H, X);
             D = op(D, A, B, C, 8, 11, 34, H, X);
             C = op(C, D, A, B, 11, 16, 35, H, X);
@@ -130,7 +141,7 @@ public class MD5 {
             D = op(D, A, B, C, 12, 11, 46, H, X);
             C = op(C, D, A, B, 15, 16, 47, H, X);
             B = op(B, C, D, A, 2, 23, 48, H, X);
-            # Round 4
+            // Round 4
             A = op(A, B, C, D, 0, 6, 49, I, X);
             D = op(D, A, B, C, 7, 10, 50, I, X);
             C = op(C, D, A, B, 14, 15, 51, I, X);
@@ -147,13 +158,14 @@ public class MD5 {
             D = op(D, A, B, C, 11, 10, 62, I, X);
             C = op(C, D, A, B, 2, 15, 63, I, X);
             B = op(B, C, D, A, 9, 21, 64, I, X);
-            # Four additions
-            A = (A + AA) & 0xFFFFFFFF;
-            B = (B + BB) & 0xFFFFFFFF;
-            C = (C + CC) & 0xFFFFFFFF;
-            D = (D + DD) & 0xFFFFFFFF;
+            // Four additions
+            A = (A + AA) & 0xFFFFFFFFL;
+            B = (B + BB) & 0xFFFFFFFFL;
+            C = (C + CC) & 0xFFFFFFFFL;
+            D = (D + DD) & 0xFFFFFFFFL;
         }
-        return new MD5Hash(A, B, C, D);
+        return new MD5Hash((int) A, (int) B, (int) C, (int) D);
     }
     
 }
+*/

@@ -1,5 +1,6 @@
 package homepage.util;
 
+import homepage.util.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,7 +127,7 @@ public class ByteBuffer {
         return s;
     }
 
-    public short getInt(int index) {
+    public int getInt(int index) {
         if (buffer.size() < index + 4) {
             throw new IndexOutOfBoundsException("The buffer is not large enough to retrieve an int at index " + index);
         }
@@ -146,7 +147,7 @@ public class ByteBuffer {
         return i;
     }
 
-    public short getLong(int index) {
+    public long getLong(int index) {
         if (buffer.size() < index + 8) {
             throw new IndexOutOfBoundsException("The buffer is not large enough to retrieve a long at index " + index);
         }

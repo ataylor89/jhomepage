@@ -1,12 +1,12 @@
+/*
 package homepage.algorithm.md5;
 
-import homepage.algorithm.ByteBuffer;
-import homepage.algorithm.ByteOrder;
+import homepage.util.ByteBuffer;
+import homepage.util.ByteOrder;
 
 public class MD5Hash {
 
     private int A, B, C, D;
-    private int digest;
     private String hexdigest;
 
     public MD5Hash(int A, int B, int C, int D) {
@@ -14,13 +14,15 @@ public class MD5Hash {
         this.B = B;
         this.C = C;
         this.D = D;
-        this.digest = A + (B << 32) + (C << 64) + (D << 96);
-        this.hexdigest = hexstring(digest);
+        this.hexdigest = hexstring(A, B, C, D);
     }
 
-    private String hexstring(int digest) {
-        ByteBuffer buffer = ByteBuffer(ByteOrder.LITTLE_ENDIAN);
-        buffer.putInt(digest);
+    private String hexstring(int A, int B, int C, int D) {
+        ByteBuffer buffer = new ByteBuffer(ByteOrder.LITTLE_ENDIAN);
+        buffer.putInt(A);
+        buffer.putInt(B);
+        buffer.putInt(C);
+        buffer.putInt(D);
         byte[] bytes = buffer.array();
         StringBuilder hexstring = new StringBuilder();
         for (byte b : bytes) {
@@ -61,14 +63,6 @@ public class MD5Hash {
         return D;
     }
 
-    public void setDigest(int digest) {
-        this.digest = digest;
-    }
-
-    public int getDigest() {
-        return digest;
-    }
-
     public void setHexdigest(String hexdigest) {
         this.hexdigest = hexdigest;
     }
@@ -78,3 +72,4 @@ public class MD5Hash {
     }
 
 }
+*/
