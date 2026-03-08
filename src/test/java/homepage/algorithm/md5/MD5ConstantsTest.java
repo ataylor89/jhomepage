@@ -17,7 +17,7 @@ public class MD5ConstantsTest {
 
     @BeforeAll
     public static void setUpClass() throws Exception {
-        URI uri = MD5ConstantsTest.class.getClassLoader().getResource("md5_constants.txt").toURI();
+        URI uri = MD5ConstantsTest.class.getClassLoader().getResource("md5/md5_constants.txt").toURI();
         Path path = Paths.get(uri);
         constants = Files.readAllLines(path);
     }
