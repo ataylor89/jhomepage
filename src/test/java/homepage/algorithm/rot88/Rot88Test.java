@@ -22,7 +22,7 @@ public class Rot88Test {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/rot88_data.csv")
+    @CsvFileSource(resources = "/rot88/rot88_data.csv")
     public void testRot88(String inputFile, String expectedFile) {
         try {
             Path inputPath = Paths.get(testData.toString(), inputFile);

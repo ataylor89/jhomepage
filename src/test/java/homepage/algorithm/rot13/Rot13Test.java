@@ -15,7 +15,7 @@ public class Rot13Test {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/rot13_data.csv")
+    @CsvFileSource(resources = "/rot13/rot13_data.csv")
     public void testRot13(String input, String expected) {
         String ciphertext = rot13.rot13(input);
         assertEquals(ciphertext, expected);
